@@ -143,7 +143,7 @@ namespace :db do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       raise "VERSION is required" unless version
       SequelRails::Migrations.migrate_up!(version)
-      Rake::Task["db:dump"].invoke unless Rails.env.test?
+      Rake::Task["db:dump"].invoke if Rails.env.development?
     end
 
     desc 'Runs the "down" for a given migration VERSION.'
@@ -151,14 +151,14 @@ namespace :db do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       raise "VERSION is required" unless version
       SequelRails::Migrations.migrate_down!(version)
-      Rake::Task["db:dump"].invoke unless Rails.env.test?
+      Rake::Task["db:dump"].invoke if Rails.env.development?
     end
   end
 
   desc 'Migrate the database to the latest version'
   task :migrate => "migrate:load" do
     SequelRails::Migrations.migrate_up!(ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
-    Rake::Task["db:dump"].invoke unless Rails.env.test?
+    Rake::Task["db:dump"].invoke if Rails.env.development?
   end
 
   desc 'Load the seed data from db/seeds.rb'
