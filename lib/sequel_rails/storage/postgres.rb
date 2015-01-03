@@ -52,7 +52,11 @@ module SequelRails
       end
 
       def close_connections
-        db = ::Sequel.connect(config)
+        if (url = config['url'])
+          db = ::Sequel.connect(url, config)
+        else
+          db = ::Sequel.connect(config)
+        end
         # Will only work on Postgres > 8.4
         pid_column = db.server_version < 90_200 ? 'procpid' : 'pid'
         db.execute <<-SQL.gsub(/^\s{12}/, '')
