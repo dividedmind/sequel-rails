@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SequelRails::Storage do
   let(:environments) do
-    {
+    SequelRails.configuration.normalize_environments(
       'development' => {
         'adapter' => 'postgres',
         'owner' => (ENV['TEST_OWNER'] || ENV['USER']),
@@ -27,7 +27,7 @@ describe SequelRails::Storage do
         'database' => 'sequel_rails_test_storage_production',
       },
       'bogus' => {},
-    }
+    )
   end
   before do
     allow(SequelRails.configuration).to receive(:environments).and_return(environments)
