@@ -107,7 +107,7 @@ describe SequelRails::Storage do
           config = { 'adapter' => adapter }
           adapter = described_class.adapter_for config
           expect(adapter).to be_instance_of klass
-          expect(adapter.config).to be config
+          expect(adapter.config).to eq config
         end
       end
       it 'raises when adapter is not valid' do

@@ -43,12 +43,16 @@ module SequelRails
     end
 
     def self.adapter_for(config_or_env)
-      config = if config_or_env.kind_of? Hash
-                 config_or_env
-               else
-                 ::SequelRails.configuration.environments[config_or_env.to_s]
-               end
-      lookup_class(config['adapter']).new config
+      config =
+        case config_or_env
+        when DbConfig
+          config_or_env
+        when Hash
+          DbConfig.new config_or_env
+        else
+          ::SequelRails.configuration.environments[config_or_env.to_s]
+        end
+      lookup_class(config.adapter).new config
     end
 
     private
