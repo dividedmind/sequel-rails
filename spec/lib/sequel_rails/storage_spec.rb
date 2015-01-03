@@ -109,6 +109,15 @@ describe SequelRails::Storage do
           expect(adapter).to be_instance_of klass
           expect(adapter.config).to eq config
         end
+
+        url = "#{adapter}:///foo"
+
+        it "returns an instance of #{klass} when url is #{url}" do
+          config = { 'url' => url }
+          adapter = described_class.adapter_for config
+          expect(adapter).to be_instance_of klass
+          expect(adapter.config).to eq config
+        end
       end
       it 'raises when adapter is not valid' do
         expect do

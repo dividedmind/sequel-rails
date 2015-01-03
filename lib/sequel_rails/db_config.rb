@@ -28,6 +28,10 @@ module SequelRails
       self[:url] || make_url.to_s.gsub(/:\/(?=\w)/, ':///')
     end
 
+    def adapter
+      self[:adapter] || URI.parse(url).scheme
+    end
+
     private
 
     ADAPTER_MAPPING = {
